@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Sayang 💗</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(180deg,#ffe6f0,#ffb6c1);
+  font-family:'Quicksand',sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+.card{
+  background:rgba(255,255,255,0.96);
+  width:92%;
+  max-width:420px;
+  border-radius:26px;
+  padding:22px;
+  text-align:center;
+  box-shadow:0 14px 34px rgba(0,0,0,.18);
+  position:relative;
+  z-index:2;
+}
+
+h1{
+  font-family:'Pacifico',cursive;
+  color:#e75480;
+  margin-bottom:4px;
+}
+
+.age{
+  font-size:14px;
+  color:#b04b65;
+  margin-top:-6px;
+}
+
+.photo{
+  width:240px;
+  height:240px;
+  margin:18px auto;
+  border-radius:50%;
+  padding:6px;
+  background:linear-gradient(135deg,#ff7fa1,#ffc1d1,#ff9eb5);
+  box-shadow:0 12px 28px rgba(0,0,0,.18);
+}
+.photo img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.envelope{
+  width:260px;
+  height:170px;
+  margin:14px auto;
+  position:relative;
+  cursor:pointer;
+}
+.envelope-body{
+  width:100%;
+  height:120px;
+  background:linear-gradient(135deg,#ffc1d1,#ff9eb5);
+  border-radius:22px;
+  position:absolute;
+  bottom:0;
+}
+.envelope-top{
+  width:100%;
+  height:90px;
+  background:linear-gradient(135deg,#ff9eb5,#ff7fa1);
+  border-radius:22px 22px 60px 60px;
+  position:absolute;
+  top:0;
+  transform-origin:top center;
+  transition:.8s ease;
+  z-index:3;
+}
+.open-text{
+  position:absolute;
+  bottom:18px;
+  width:100%;
+  font-size:13px;
+  color:#7a2c45;
+}
+
+.letter{
+  background:#fff0f5;
+  border-radius:18px;
+  padding:18px;
+  font-family:'Dancing Script',cursive;
+  font-size:17px;
+  line-height:1.9;
+  text-align:left;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
+  transition:.8s ease;
+}
+.letter.show{
+  max-height:1000px;
+  opacity:1;
+}
+
+audio{
+  width:100%;
+  margin-top:10px;
+}
+
+.footer{
+  font-size:12px;
+  color:#a14c65;
+  margin-top:10px;
+}
+
+/* 💕 HEART RAIN */
+.heart{
+  position:fixed;
+  top:-10px;
+  font-size:18px;
+  animation:fall linear forwards;
+  pointer-events:none;
+}
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <h1>Happy Birthday, sayangku 🎂💗</h1>
+  <div class="age" id="ageText"></div>
+
+  <div class="photo">
+    <img src="foto.jpg" alt="Foto Sayang">
+  </div>
+
+  <div class="envelope" onclick="openLetter()">
+    <div class="envelope-top"></div>
+    <div class="envelope-body"></div>
+    <div class="open-text">💌 Tap untuk membuka surat</div>
+  </div>
+
+  <div class="letter" id="letter">
+    Sayang, ini first time perayaan ulang tahun kamu dari aku.
+    Aku harap kamu seneng dengan kado kecil ini ya baby.
+    Aku mau merayakan semua hal kecil dan besar di hidup kamu,
+    karena kamu pantas dirayakan.
+    Inget ya babe, kamu selalu punya aku.
+    Aku sayang kamu, hari ini, besok, dan seterusnya 🤍💋
+  </div>
+
+  <audio id="audioPlayer">
+    <source src="lagu.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="footer">Offline permanen 💕</div>
+</div>
+
+<script>
+const birthDate = new Date("2006-02-12");
+const ageText = document.getElementById("ageText");
+const now = new Date();
+let age = now.getFullYear() - birthDate.getFullYear();
+if (
+  now.getMonth() < birthDate.getMonth() ||
+  (now.getMonth() === birthDate.getMonth() && now.getDate() < birthDate.getDate())
+) age--;
+ageText.innerText = `12 Februari 2006 • ${age} tahun ✨`;
+
+const letter = document.getElementById("letter");
+const envelopeTop = document.querySelector(".envelope-top");
+const audio = document.getElementById("audioPlayer");
+let open = false;
+
+function openLetter(){
+  if(!open){
+    envelopeTop.style.transform="rotateX(180deg)";
+    letter.classList.add("show");
+    audio.play();
+    heartRain();
+    open=true;
+  }else{
+    envelopeTop.style.transform="rotateX(0deg)";
+    letter.classList.remove("show");
+    audio.pause();
+    open=false;
+  }
+}
+
+function heartRain(){
+  for(let i=0;i<25;i++){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerText="💗";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=2+Math.random()*3+"s";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+  }
+}
+</script>
+</body>
+</html>
